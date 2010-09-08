@@ -4,4 +4,9 @@ json2lua – A command-line tool to convert JSON to Lua
 This tool is still in its embryonic phase.
 An appropriate description would be added later.
 
+This project currently depends on lua-nucleo
+(http://github.com/lua-nucleo/lua-nucleo).
+Just create a symlink to `lua-nucleo/lua-nucleo`
+in a root directory of the project.
+
 See the copyright information in the file named `COPYRIGHT`.

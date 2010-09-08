@@ -1,0 +1,84 @@
+#! /bin/bash
+
+# NOTE: This file uses bash 3.0+ features.
+
+set -e
+set -o errexit
+set -o nounset
+
+LUA="luajit2"
+if [ -z "$(which ${LUA})" ]; then
+  LUA="luajit"
+  if [ -z "$(which ${LUA})" ]; then
+    LUA="lua"
+
+    if [ -z "$(which ${LUA})" ]; then
+      echo "Error: luajit2, luajit or lua executables not found" >&2
+      exit 1
+    fi
+  fi
+fi
+
+ROOT="${BASH_SOURCE[0]}";
+if([ -h "${ROOT}" ]) then
+  while([ -h "${ROOT}" ]) do ROOT=`readlink "${ROOT}"`; done
+fi
+ROOT=$(cd `dirname "${ROOT}"` && pwd)
+
+${LUA} -e "
+
+pcall(require, 'luarocks.require') -- Ignoring errors
+
+local json_decode, json_util
+do
+  local json, err = pcall(require, 'json')
+  if not json then
+    io.stdout:write(
+        err, '\n\n',
+        'try running \'luarocks install luajson\'', '\n'
+      )
+    io.stdout:flush()
+    io.exit(1)
+  end
+
+  json_decode = require('json.decode')
+  json_util = require('json.util')
+end
+
+--------------------------------------------------------------------------------
+
+local CODE_ROOT = '${ROOT}'
+if not CODE_ROOT:sub(-1) ~= '/' then
+  CODE_ROOT = CODE_ROOT .. '/'
+end
+
+do
+  -- TODO: This is really hackish!!! Fix it!
+  local res, err = loadfile(CODE_ROOT..'lua-nucleo/strict.lua')
+  if not res then
+    io.stdout:write(
+        err, '\n\n',
+        'did you forget to create lua-nucleo symlink?', '\n'
+      )
+    io.stdout:flush()
+    io.exit(1)
+  end
+  res()
+end
+assert(loadfile(CODE_ROOT..'lua-nucleo/import.lua'))(CODE_ROOT)
+
+--------------------------------------------------------------------------------
+
+local tpretty = import 'lua-nucleo/tpretty.lua' { 'tpretty' }
+
+--------------------------------------------------------------------------------
+
+-- TODO: Add command-line parameters!
+
+local input = assert(io.stdin:read('*a'))
+local data = assert(json_decode(input))
+
+io.stdout:write(tpretty(data, '  ', 80))
+io.stdout:flush()
+
+"
