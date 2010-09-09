@@ -1,9 +1,6 @@
 json2lua – A command-line tool to convert JSON to Lua
 =====================================================
 
-This tool is still in its embryonic phase.
-An appropriate description would be added later.
-
 See the copyright information in the file named `COPYRIGHT`.
 
 Usage:
