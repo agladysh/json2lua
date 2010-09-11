@@ -27,3 +27,26 @@ Unfortunately, `luajson.util.printValue()` is too broken to be useful.
     sudo luarocks install \
       lua-nucleo \
       --from=http://luarocks.org/repositories/rocks-cvs
+
+Installation:
+-------------
+
+1. Install dependencies (see above).
+
+2. Install json2lua:
+
+A. Copy / symlink it somewhere in path
+
+-- or --
+
+B. Install it with LuaRocks:
+
+    sudo luarocks install \
+      json2lua \
+      --from=http://luarocks.org/repositories/rocks-cvs
+
+Note that LuaRocks 2.0.2 and below reset executable bit
+on the installed binaries. To ensure that json2lua is executable,
+run following command after installation:
+
+    sudo chmod +x $(which json2lua)
