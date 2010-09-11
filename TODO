@@ -10,5 +10,5 @@ TODO
    --output=<path>      (default: - /stdout/)
    + filename to read   (default: - /stdin/)
 
--- Use some specialized pretty-print library. 
+-- Use some specialized pretty-print library.
    Lua-Nucleo dependency is too heavy for this tool.
