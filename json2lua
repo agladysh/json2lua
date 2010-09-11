@@ -63,19 +63,25 @@ end
 
 --------------------------------------------------------------------------------
 
-local tpretty = import 'lua-nucleo/tpretty.lua' { 'tpretty' }
-
---------------------------------------------------------------------------------
-
 -- TODO: Add command-line parameters!
 
 local input = assert(io.stdin:read('*a'))
 
 -- See this post regarding json_decode.simple:
 -- http://permalink.gmane.org/gmane.comp.lang.lua.general/68656
-local data = assert(json_decode(input, json_decode.simple))
+local data, err = json_decode(input, json_decode.simple)
+if err then
+  error(err)
+end
 
-io.stdout:write(tpretty(data, '  ', 80))
+if type(data) ~= 'table' then
+  local tstr = import 'lua-nucleo/tstr.lua' { 'tstr' }
+  io.stdout:write(tstr(data), '\n')
+else
+  local tpretty = import 'lua-nucleo/tpretty.lua' { 'tpretty' }
+  io.stdout:write(tpretty(data, '  ', 80))
+end
+
 io.stdout:flush()
 
 "
