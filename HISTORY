@@ -1,3 +1,25 @@
+Version 0.2 (2010-09-11)
+========================
+
+* Fixed null serialization
+* Support for non-table types
+* Initializing Lua-Nucleo via require (install it from LuaRocks)
+* Rockspecs (scm-1, v0.2)
+* Some documentation updates
+
+Full list of changes since v0.1:
+
+Alexander Gladysh (9):
+      README.md: renamed from README to satisfy GitHub
+      using new require-friendly mode of lua-nucleo
+      README: no longer in embryonic phase.
+      rockspec: scm-1
+      using simple decoding to translate nulls to nils
+      serializing non-table types
+      added TODO file
+      rockspec: v0.2
+      README: more detailed installation instructions
+
 Version 0.1 (2010-09-09)
 ========================
 
