@@ -24,9 +24,7 @@ Unfortunately, `luajson.util.printValue()` is too broken to be useful.
 This project currently depends on lua-nucleo
 for pretty-printing of Lua data.
 
-    sudo luarocks install \
-      lua-nucleo \
-      --from=http://luarocks.org/repositories/rocks-cvs
+    sudo luarocks install lua-nucleo 
 
 Installation:
 -------------
