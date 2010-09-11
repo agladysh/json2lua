@@ -19,10 +19,10 @@ All actual work on JSON data is done here.
 
 ### lua-nucleo
 
+Unfortunately, `luajson.util.printValue()` is too broken to be useful.
+
 This project currently depends on lua-nucleo
 for pretty-printing of Lua data.
-
-Unfortunately, `luajson.util.printValue()` is too broken to be useful.
 
     sudo luarocks install \
       lua-nucleo \
