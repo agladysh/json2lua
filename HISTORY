@@ -1,3 +1,30 @@
+Version 0.3 (2010-09-19)
+========================
+
+* Added command line options to:
+  * Do not pretty-print Lua code (default: do pretty-print)
+  * Set maximum pretty-print width to N chars (default: 80)
+  * Set pretty-print indent to string (default: two spaces, '  ')
+  * Force object keys to be transformed to numbers
+    whenever possible (default: off)
+  * Do not print terminating EOL (default: do print)
+* Some documentation updates
+* Other minor changes
+
+Full list of changes since v0.2:
+
+Alexander Gladysh (9):
+      README: which does not work for non-executable files, using command
+      README: format tuning
+      rockspec: 0.2-2 (with fixed-version lua-nucleo dependency)
+      README: cosmetics
+      README: lua-nucleo is to be available from the main LR repository
+      json2lua: lua-nucleo is now in main LR repository
+      json2lua: enhanced error reporting
+      json2lua: added commandline options (including force numeric keys option)
+      TODO: updated
+      rockspec: 0.3-1
+
 Version 0.2 (2010-09-11)
 ========================
 
