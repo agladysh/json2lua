@@ -11,7 +11,7 @@ description = {
 }
 dependencies = {
    "lua >= 5.1",
-   "luajson > 1.1",
+   "luajson >= 1.1",
    "lua-nucleo >= 0.0.1"
 }
 build = {
