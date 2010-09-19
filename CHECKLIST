@@ -5,4 +5,5 @@ Release checklist
 2. Bump VERSION variable in json2lua
 3. Add new rockspec.
 4. Add new section to VERSION file
-5. Add new git tag with version number
+5. Add new git tag with version number and push it with --tags
+6. Submit rockspec to the LuaRocks repository
