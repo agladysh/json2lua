@@ -1,3 +1,14 @@
+Version 0.3.1 (2010-09-19)
+==========================
+
+* Added command line option to prefix data with 'return' (default: off)
+
+Full list of changes since v0.3:
+
+Alexander Gladysh (2):
+      json2lua: -r option to prefix output with return
+      rockspec: 0.3.1-1
+
 Version 0.3 (2010-09-19)
 ========================
 
