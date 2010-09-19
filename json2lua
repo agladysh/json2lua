@@ -1,5 +1,7 @@
 #! /bin/bash
 
+VERSION="v0.3"
+
 # Detect Lua interpreter (prefer LuaJIT 2)
 if [ ! -z "${LUA}" ]; then
   if [ -z "$(which ${LUA})" ]; then
@@ -22,11 +24,91 @@ if [ -z "${LUA}" ]; then
   fi
 fi
 
+function version()
+{
+  cat << EOF
+JSON to Lua translator ${VERSION}
+
+EOF
+}
+
+function usage()
+{
+  cat << EOF
+Usage:
+
+  $0 [options] < in.json > out.lua
+
+Options:
+
+  -h    Print this text
+  -v    Print script version
+  -n    Do not pretty-print Lua code (default: do pretty-print)
+  -wN   Set maximum pretty-print width to N chars (default: 80)
+  -iStr Set pretty-print indent to string (default: two spaces, '  ')
+  -N    Force object keys to be transformed to numbers
+        whenever possible (default: off)
+  -e    Do not print terminating EOL (default: do print)
+
+EOF
+}
+
+NO_PRETTY_PRINT=false
+MAX_WIDTH=80
+INDENT_STR="  "
+FORCE_NUM_KEYS=false
+SKIP_TERMINATING_EOL=false
+
+while getopts ":hvnw:i:Ne" opt; do
+  case ${opt} in
+    h)
+      version
+      usage
+      exit 0
+      ;;
+    v)
+      version
+      exit 0
+      ;;
+    n)
+      NO_PRETTY_PRINT=true
+      ;;
+    w)
+      MAX_WIDTH="${OPTARG}"
+      ;;
+    i)
+      INDENT_STR="${OPTARG}"
+      ;;
+    N)
+      FORCE_NUM_KEYS=true
+      ;;
+    e)
+      SKIP_TERMINATING_EOL=true
+      ;;
+    \?)
+      echo "unknown option: -${OPTARG}" >&2
+      exit 1
+      ;;
+    :)
+      echo "option -${OPTARG} requires an argument" >&2
+      exit 1
+      ;;
+  esac
+done
+
 ${LUA} -e "
+
+local NO_PRETTY_PRINT = ${NO_PRETTY_PRINT}
+local MAX_WIDTH = ${MAX_WIDTH}
+local INDENT_STR = '${INDENT_STR}'
+local FORCE_NUM_KEYS = ${FORCE_NUM_KEYS}
+local SKIP_TERMINATING_EOL = ${SKIP_TERMINATING_EOL}
+
+--------------------------------------------------------------------------------
 
 pcall(require, 'luarocks.require') -- Ignoring errors
 
-local json_decode, json_util
+local json_decode, json_util, json_decode_util
 do
   local json, err = pcall(require, 'json')
   if not json then
@@ -38,8 +120,20 @@ do
     os.exit(1)
   end
 
-  json_decode = require('json.decode')
   json_util = require('json.util')
+  json_decode = require('json.decode')
+  json_decode_util = require('json.decode.util')
+
+  if
+    FORCE_NUM_KEYS and
+    not json_decode_util.setObjectKeyForceNumber
+  then
+    -- TODO: Traverse table manually in this case.
+    error(
+        'can\'t force numeric keys:\ninstalled luajson version'
+     .. ' does not support setObjectKey option'
+      )
+  end
 end
 
 --------------------------------------------------------------------------------
@@ -62,23 +156,33 @@ end
 
 --------------------------------------------------------------------------------
 
--- TODO: Add command-line parameters!
-
 local input = assert(io.stdin:read('*a'))
 
--- See this post regarding json_decode.simple:
--- http://permalink.gmane.org/gmane.comp.lang.lua.general/68656
-local data, err = json_decode(input, json_decode.simple)
+-- Using simple decoding since we need nulls to be translated to nils.
+local decode_options = json_decode.simple
+
+if FORCE_NUM_KEYS then
+  decode_options = json_util.merge(
+      { setObjectKey = json_decode_util.setObjectKeyForceNumber },
+      decode_options
+    )
+end
+
+local data, err = json_decode(input, decode_options)
 if err then
   error('luajson error: ' .. err)
 end
 
-if type(data) ~= 'table' then
+if NO_PRETTY_PRINT or type(data) ~= 'table' then
   local tstr = import 'lua-nucleo/tstr.lua' { 'tstr' }
-  io.stdout:write(tstr(data), '\n')
+  io.stdout:write(tstr(data))
 else
   local tpretty = import 'lua-nucleo/tpretty.lua' { 'tpretty' }
-  io.stdout:write(tpretty(data, '  ', 80))
+  io.stdout:write(tpretty(data, INDENT_STR, MAX_WIDTH))
+end
+
+if not SKIP_TERMINATING_EOL then
+  io.stdout:write('\n')
 end
 
 io.stdout:flush()
