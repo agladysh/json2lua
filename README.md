@@ -60,3 +60,5 @@ Installation:
   run following command after installation:
   
       sudo chmod +x $(command -v json2lua)
+
+  If you're using LuaRocks 2.0.3 and above, chmod is not needed.
