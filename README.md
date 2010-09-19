@@ -6,7 +6,19 @@ See the copyright information in the file named `COPYRIGHT`.
 Usage:
 ------
 
-`json2lua < data.json > data.lua`
+`json2lua [options] < data.json > data.lua`
+
+### Options:
+
+    -h    Print help
+    -v    Print script version
+    -n    Do not pretty-print Lua code (default: do pretty-print)
+    -wN   Set maximum pretty-print width to N chars (default: 80)
+    -iStr Set pretty-print indent to string (default: two spaces, '  ')
+    -N    Force object keys to be transformed to numbers
+          whenever possible (default: off)
+    -e    Do not print terminating EOL (default: do print)
+    -r    Prefix data with 'return' (default: off)
 
 Dependencies
 ------------
