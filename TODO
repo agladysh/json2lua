@@ -1,12 +1,9 @@
 TODO
 ====
 
--- Add command-line options. At least:
-   --help
-   --version
-   --no-prettyprint     (default: off)
-   --indent=<string>    (default: "  ")
-   --max-width=<number> (default: 80)
+-- Tune command-line options. At least:
+
+   Support long --options
    --output=<path>      (default: - /stdout/)
    + filename to read   (default: - /stdin/)
 
