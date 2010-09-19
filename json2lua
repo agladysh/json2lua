@@ -70,7 +70,7 @@ local input = assert(io.stdin:read('*a'))
 -- http://permalink.gmane.org/gmane.comp.lang.lua.general/68656
 local data, err = json_decode(input, json_decode.simple)
 if err then
-  error(err)
+  error('luajson error: ' .. err)
 end
 
 if type(data) ~= 'table' then
