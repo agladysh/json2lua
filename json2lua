@@ -49,6 +49,7 @@ Options:
   -N    Force object keys to be transformed to numbers
         whenever possible (default: off)
   -e    Do not print terminating EOL (default: do print)
+  -r    Prefix data with 'return' (default: off)
 
 EOF
 }
@@ -58,8 +59,9 @@ MAX_WIDTH=80
 INDENT_STR="  "
 FORCE_NUM_KEYS=false
 SKIP_TERMINATING_EOL=false
+PREFIX_WITH_RETURN=false
 
-while getopts ":hvnw:i:Ne" opt; do
+while getopts ":hvnw:i:Ner" opt; do
   case ${opt} in
     h)
       version
@@ -85,6 +87,9 @@ while getopts ":hvnw:i:Ne" opt; do
     e)
       SKIP_TERMINATING_EOL=true
       ;;
+    r)
+      PREFIX_WITH_RETURN=true
+      ;;
     \?)
       echo "unknown option: -${OPTARG}" >&2
       exit 1
@@ -103,6 +108,7 @@ local MAX_WIDTH = ${MAX_WIDTH}
 local INDENT_STR = '${INDENT_STR}'
 local FORCE_NUM_KEYS = ${FORCE_NUM_KEYS}
 local SKIP_TERMINATING_EOL = ${SKIP_TERMINATING_EOL}
+local PREFIX_WITH_RETURN = ${PREFIX_WITH_RETURN}
 
 --------------------------------------------------------------------------------
 
@@ -171,6 +177,10 @@ end
 local data, err = json_decode(input, decode_options)
 if err then
   error('luajson error: ' .. err)
+end
+
+if PREFIX_WITH_RETURN then
+  io.stdout:write('return ')
 end
 
 if NO_PRETTY_PRINT or type(data) ~= 'table' then
