@@ -50,8 +50,7 @@ do -- Bootstrap lua-nucleo
     io.stdout:write(
         err,
         '\n\n',
-        'try running \'luarocks install lua-nucleo',
-        ' --from=http://luarocks.org/repositories/rocks-cvs\'',
+        'try running \'luarocks install lua-nucleo\'',
         '\n'
       )
     io.stdout:flush()
