@@ -1,6 +1,6 @@
 #! /bin/bash
 
-VERSION="v0.3"
+VERSION="v0.3.1"
 
 # Detect Lua interpreter (prefer LuaJIT 2)
 if [ ! -z "${LUA}" ]; then
