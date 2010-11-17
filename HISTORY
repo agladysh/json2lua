@@ -1,3 +1,24 @@
+Version 0.3.2 (2010-11-17)
+==========================
+
+* Fixed "force numeric keys" option to work with luajson 1.2
+* Now minimal supported version of luajson is 1.2 
+  (some options will work with earlier versions).
+
+Full list of changes since v0.3.1:
+
+Alexander Gladysh (10):
+      README: updated usage
+      json2lua: bumped printed version
+      README: clarification on chmod under LR 2.0.3+
+      CHECKLIST: new version release checklist
+      CHECKLIST: mentioned submit to LR repo
+      json2lua: updated to work with luajson 1.2+
+      test/data.json: simple json data
+      TODO: add a proper test suite
+      json2lua: bumped version to 0.3.2
+      rockspec: v0.3.2
+
 Version 0.3.1 (2010-09-19)
 ==========================
 
