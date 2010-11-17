@@ -169,7 +169,12 @@ local decode_options = json_decode.simple
 
 if FORCE_NUM_KEYS then
   decode_options = json_util.merge(
-      { setObjectKey = json_decode_util.setObjectKeyForceNumber },
+      {
+        object =
+        {
+          setObjectKey = json_decode_util.setObjectKeyForceNumber;
+        };
+      },
       decode_options
     )
 end
