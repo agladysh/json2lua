@@ -50,7 +50,13 @@ Installation:
   -- or --
   
   B. Install it with LuaRocks:
+
+  Stable version:
   
+      sudo luarocks install json2lua
+
+  Developer version:
+
       sudo luarocks install \
         json2lua \
         --from=http://luarocks.org/repositories/rocks-cvs
