@@ -9,3 +9,5 @@ TODO
 
 -- Use some specialized pretty-print library.
    Lua-Nucleo dependency is too heavy for this tool.
+
+-- Add a proper test suite
