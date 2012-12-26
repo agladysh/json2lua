@@ -168,7 +168,9 @@ local input = assert(io.stdin:read('*a'))
 local decode_options = json_decode.simple
 
 if FORCE_NUM_KEYS then
-  decode_options = json_util.merge(
+  local twithdefaults = import 'lua-nucleo/table-utils.lua' { 'twithdefaults' }
+
+  decode_options = twithdefaults(
       {
         object =
         {
