@@ -2,7 +2,7 @@ Version 0.3.2 (2010-11-17)
 ==========================
 
 * Fixed "force numeric keys" option to work with luajson 1.2
-* Now minimal supported version of luajson is 1.2 
+* Now minimal supported version of luajson is 1.2
   (some options will work with earlier versions).
 
 Full list of changes since v0.3.1:
